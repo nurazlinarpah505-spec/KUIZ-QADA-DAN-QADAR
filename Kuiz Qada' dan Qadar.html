@@ -1,0 +1,321 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Kuiz Qada' dan Qadar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;500;700&display=swap">
+<style>
+/* Layout: full-width navy header with an eight-point star lattice (from the textbook border), then one centred column holding a single question card at a time. */
+:root{
+  --bg:#EEF2F7;
+  --card:#FFFFFF;
+  --ink:#17263D;
+  --muted:#586A84;
+  --line:#D3DCE8;
+  --navy:#2B4A6F;
+  --navy-ink:#FFFFFF;
+  --accent:#C93F7E;
+  --accent-ink:#FFFFFF;
+  --gold:#D9A55F;
+  --ok:#1F7A4B;
+  --ok-bg:#E0F2E8;
+  --bad:#B3322A;
+  --bad-bg:#FBE5E2;
+  --font-display:'Amiri','Scheherazade New',serif;
+  --font-body:'Noto Naskh Arabic','Amiri','Scheherazade New',serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0D1626;--card:#15233A;--ink:#E9EFF8;--muted:#9DB0CA;--line:#2A3C5C;
+    --navy:#1B3252;--navy-ink:#FFFFFF;--accent:#F27DAE;--accent-ink:#1A0B14;--gold:#E5B676;
+    --ok:#5ECB93;--ok-bg:#12372A;--bad:#F2786C;--bad-bg:#3D1A18;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0D1626;--card:#15233A;--ink:#E9EFF8;--muted:#9DB0CA;--line:#2A3C5C;
+  --navy:#1B3252;--navy-ink:#FFFFFF;--accent:#F27DAE;--accent-ink:#1A0B14;--gold:#E5B676;
+  --ok:#5ECB93;--ok-bg:#12372A;--bad:#F2786C;--bad-bg:#3D1A18;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font-body);font-size:1.15rem;line-height:2}
+button,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.hero{
+  background-color:var(--navy);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.13' stroke-width='1.2'%3E%3Crect x='12' y='12' width='32' height='32'/%3E%3Crect x='12' y='12' width='32' height='32' transform='rotate(45 28 28)'/%3E%3C/g%3E%3C/svg%3E");
+  color:var(--navy-ink);
+  border-bottom:6px solid var(--gold);
+  padding-inline:16px;
+  padding-block:28px 26px;
+}
+.hero-in{max-width:640px;margin-inline:auto}
+.eyebrow{display:inline-block;background:var(--gold);color:#2A1D08;font-weight:700;font-size:.95rem;line-height:1.7;padding:2px 14px}
+.hero h1{font-family:var(--font-display);font-weight:700;font-size:2.4rem;line-height:1.5;margin:8px 0 0;text-wrap:balance}
+.hero p{margin:0;opacity:.9;font-size:1.05rem}
+
+.wrap{max-width:640px;margin-inline:auto;padding-inline:16px;padding-block:22px 40px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--card);border:1px solid var(--line);padding:20px;min-width:0}
+
+.field label{display:block;font-weight:700;color:var(--muted);font-size:1rem}
+.field input{width:100%;margin-top:4px;padding:8px 12px;background:var(--bg);border:2px solid var(--line);border-radius:4px;line-height:1.8}
+.field input::placeholder{color:var(--muted);opacity:.8}
+.hint{color:var(--muted);font-size:1rem;margin:12px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:8px 20px;margin:0 0 16px;padding:0;list-style:none;color:var(--muted);font-size:1.05rem}
+.facts b{color:var(--ink);font-family:var(--font-display);font-size:1.4rem}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;border:2px solid var(--accent);background:var(--accent);color:var(--accent-ink);font-weight:700;padding:6px 24px;border-radius:4px;line-height:1.9;min-height:48px}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.ghost:hover{border-color:var(--navy)}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+
+.bar{display:flex;gap:4px}
+.bar i{flex:1;height:8px;background:var(--line);min-width:0}
+.bar i.cur{background:var(--gold)}
+.bar i.ok{background:var(--ok)}
+.bar i.bad{background:var(--bad)}
+.meta{display:flex;justify-content:space-between;align-items:baseline;color:var(--muted);font-size:1rem;margin-block:8px 0}
+.meta b{color:var(--ink)}
+
+.q{font-family:var(--font-display);font-weight:700;font-size:1.5rem;line-height:1.9;margin:0 0 14px;text-wrap:balance}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:12px;width:100%;text-align:start;cursor:pointer;background:var(--card);border:2px solid var(--line);border-radius:4px;padding:6px 12px;line-height:1.9;min-height:54px}
+.opt:hover:not(:disabled){border-color:var(--navy)}
+.opt .b{flex:none;width:34px;height:34px;display:grid;place-items:center;border:2px solid var(--line);border-radius:50%;font-family:var(--font-display);font-weight:700;line-height:1;color:var(--muted)}
+.opt .t{min-width:0;flex:1}
+.opt:disabled{cursor:default;color:inherit}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok)}
+.opt.ok .b{background:var(--ok);border-color:var(--ok);color:#fff}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad)}
+.opt.bad .b{background:var(--bad);border-color:var(--bad);color:#fff}
+.opt.dim{opacity:.55}
+.tf .opt{justify-content:flex-start}
+
+.fb{margin-top:16px;padding:12px 16px;border-inline-start:6px solid var(--line);background:var(--bg)}
+.fb.ok{border-color:var(--ok)}
+.fb.bad{border-color:var(--bad)}
+.fb strong{display:block;font-size:1.2rem}
+.fb.ok strong{color:var(--ok)}
+.fb.bad strong{color:var(--bad)}
+.fb p{margin:0;color:var(--ink)}
+.nextrow{margin-top:16px;display:flex}
+
+.score{text-align:center}
+.score .lbl{color:var(--muted);font-weight:700}
+.score .n{font-family:var(--font-display);font-weight:700;font-size:4.5rem;line-height:1.3;color:var(--accent)}
+.score .n small{font-size:2rem;color:var(--muted)}
+.score .msg{font-size:1.25rem;font-weight:500;margin:0}
+.who{color:var(--muted);margin:0}
+.rev h2{font-family:var(--font-display);font-size:1.4rem;margin:0 0 6px}
+.rev ol{list-style:none;margin:0;padding:0}
+.rev li{display:flex;gap:10px;align-items:flex-start;padding-block:10px;border-top:1px solid var(--line)}
+.rev li:first-child{border-top:0}
+.rev .n{flex:none;min-width:1.6em;color:var(--muted);font-weight:700}
+.rev .t{flex:1;min-width:0;font-size:1.05rem;line-height:1.9}
+.rev .t small{display:block;color:var(--muted);font-size:1rem}
+.pill{flex:none;font-size:.95rem;font-weight:700;padding:0 12px;line-height:1.8;border-radius:99px}
+.pill.ok{background:var(--ok-bg);color:var(--ok)}
+.pill.bad{background:var(--bad-bg);color:var(--bad)}
+.copybox{width:100%;margin-top:10px;padding:10px 12px;background:var(--bg);border:2px solid var(--line);border-radius:4px;line-height:1.9;resize:none}
+@media (prefers-reduced-motion:no-preference){
+  .opt,.btn{transition:border-color .15s,background-color .15s,filter .15s}
+}
+@media (max-width:420px){
+  .hero h1{font-size:2rem}
+  .q{font-size:1.35rem}
+  .card{padding:16px}
+}
+
+.rsave{min-height:1.6em;margin:8px 0 0;color:var(--muted);font-size:1rem}
+.teacher{margin-top:16px}
+.teacher h2{margin:0 0 6px}
+.teacher .stats{display:flex;gap:18px;justify-content:center;margin:6px 0 10px}
+.teacher table{width:100%;border-collapse:collapse}
+.teacher th,.teacher td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:start}
+</style>
+
+<div dir="rtl" lang="ms-Arab">
+  <header class="hero">
+    <div class="hero-in">
+      <span class="eyebrow">ڤلاجرن 7</span>
+      <h1>کوءيز برايمان کڤد قضاء دان قدر</h1>
+      <p>12 سوءالن · ڤيليه جواڤن يڠ بتول</p>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="start" class="card">
+      <ul class="facts">
+        <li><b>8</b> سوءالن ڤيليهن جواڤن</li>
+        <li><b>4</b> سوءالن بتول اتاو سله</li>
+      </ul>
+      <div class="field">
+        <label for="nama">نام اندا (ڤيليهن)</label>
+        <input id="nama" type="text" autocomplete="off" placeholder="تولس نام اندا" maxlength="60">
+      </div>
+      <p class="hint">جواڤن دسيمق سرتا-مرتا سلڤس اندا ممبوات ڤيليهن.</p>
+      <div class="row" style="margin-top:16px">
+        <button id="go" class="btn" type="button">مولا کوءيز</button>
+      </div>
+    </section>
+
+    <section id="quiz" hidden>
+      <div class="bar" id="bar" aria-hidden="true"></div>
+      <div class="meta"><span id="qnum"></span><span>مارکه: <b id="live" dir="ltr">0</b></span></div>
+      <div class="card" style="margin-top:12px">
+        <h2 class="q" id="qtext"></h2>
+        <div class="opts" id="opts" role="group" aria-labelledby="qtext"></div>
+        <div id="fb" class="fb" hidden aria-live="polite"></div>
+        <div class="nextrow"><button id="next" class="btn" type="button" hidden></button></div>
+      </div>
+    </section>
+
+    <section id="result" hidden>
+      <div class="card score">
+        <div class="lbl">مارکه اندا</div>
+        <div class="n" dir="ltr"><span id="rs">0</span> <small>/ <span id="rt">12</span></small></div>
+        <p class="msg" id="rmsg"></p>
+        <p class="who" id="rwho"></p>
+        <div class="row" style="justify-content:center;margin-top:16px">
+          <button id="copy" class="btn" type="button">سالين مارکه</button>
+          <button id="again" class="btn ghost" type="button">چوبا لاڬي</button>
+        </div>
+        <textarea id="copybox" class="copybox" rows="3" readonly hidden></textarea>
+      </div>
+      <div class="card rev" style="margin-top:16px">
+        <h2>سيمقن جواڤن</h2>
+        <ol id="review"></ol>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+(function(){
+  var TF = ['بتول','ساله'];
+  var Q = [
+    {q:'قضاء اياله ...', o:['اوکورن دان سوکتن کتتڤن','کتتڤن الله اتس کجادين يڠ برلاکو کڤد مخلوق','اوسها ماءنسي اونتوق برجاي'], a:1,
+     w:'قضاء اياله کتتڤن الله اتس کجادين يڠ برلاکو کڤد مخلوق سڤرتي کاي، ميسکين، هيدوڤ دان ماتي.'},
+    {q:'قدر اياله ...', o:['اوکورن دان سوکتن کتتڤن يڠ دتنتوکن اوليه الله','کجادين ماتي سهاج','اوسها ماءنسي سنديري'], a:0,
+     w:'قدر اياله اوکورن دان سوکتن کتتڤن يڠ دتنتوکن اوليه الله تعالى اتس تياڤ٢ مخلوق.'},
+    {q:'برايمان کڤد قضاء دان قدر اياله ممڤرچاياءي بهاوا الله ...', o:['تيدق منتوکن ڤرکارا','برکواس منتوکن دان مڠاتور سڬالا-ڬالاڽ','هاڽ مڠاتور ڤرکارا باءيق'], a:1,
+     w:'الله تعالى برکواس منتوکن دان مڠاتور سڬالا-ڬالاڽ دڠن کبيجقساناءن.'},
+    {q:'زيد دتتڤکن ساکيت ڤد 14 محرم. اڤابيلا تيبا 14 محرم، زيد جاتوه ساکيت. کساکيتن يڠ منيمڤا زيد ايت دکتاکن ...', o:['قضاء','قدر','حسن الظن'], a:0,
+     w:'کجادين يڠ سوده برلاکو (زيد ساکيت) دکتاکن قضاء.'},
+    {q:'کتتڤن ڤد 14 محرم يڠ زيد اکن ساکيت ايت دکتاکن ...', o:['قضاء','قدر اتاو تقدير','شکور'], a:1,
+     w:'کتتڤن اوکورن دان سوکتن يڠ دتنتوکن اوليه الله دکتاکن قدر اتاو تقدير.'},
+    {q:'صيفت حسن الظن برمعنا ...', o:['سڠک باءيق کڤد الله','سڠک بوروق کڤد ماءنسي','تاکوت کڤد کتتڤن'], a:0,
+     w:'حسن الظن اياله سڠک باءيق کڤد الله دان يقين برکرجا.'},
+    {q:'اڤابيلا منريما نعمت، کيت هندقله ...', o:['برشکور','سومبوڠ','چڤت برڤوتوس اسا'], a:0,
+     w:'برايمان کڤد قضاء دان قدر ملاتيه ديري اونتوق برشکور اڤابيلا مناداڤت نعمت.'},
+    {q:'اڤابيلا دتيمڤا مصيبة، کيت هندقله ...', o:['برڤوتوس اسا','برصبر','مڠلوه سهاج'], a:1,
+     w:'برايمان کڤد قضاء دان قدر ملاتيه ديري اونتوق برصبر اڤابيلا دتيمڤا مصيبة.'},
+    {q:'کيت واجب ڤرچاي سموا کجادين برلاکو دڠن کهندق الله.', o:TF, a:0, tf:1,
+     w:'سموا ڤرکارا برلاکو دڠن کهندق الله سرتا قضاء دان قدرڽ.'},
+    {q:'ماءنسي بوليه مڠاتور قضاء دان قدر الله.', o:TF, a:1, tf:1,
+     w:'الله يڠ منتوکن دان مڠاتور سڬالا-ڬالاڽ. ماءنسي هاڽ ممڤوڽاي کماهوان اونتوق مميليه.'},
+    {q:'اڤابيلا دتيمڤا مصيبة، کيت بوليه برڤوتوس اسا.', o:TF, a:1, tf:1,
+     w:'کيت هندقله برصبر دان رضا دڠن کتنتوان الله.'},
+    {q:'برايمان کڤد قضاء دان قدر منجاءوهکن ديري درڤد صيفت سومبوڠ.', o:TF, a:0, tf:1,
+     w:'کران اورڠ يڠ برايمان اکن سدر بهاوا سموا ايت دتنتوکن اوليه الله.'}
+  ];
+  var LET = ['أ','ب','ج'];
+  var i = 0, picks = [], score = 0, name = '';
+  var $ = function(id){ return document.getElementById(id); };
+  function show(id){ ['start','quiz','result'].forEach(function(s){ $(s).hidden = (s !== id); }); window.scrollTo(0,0); }
+
+  function buildBar(){
+    var b = $('bar'); b.innerHTML = '';
+    Q.forEach(function(){ b.appendChild(document.createElement('i')); });
+  }
+  function paintBar(){
+    var segs = $('bar').children;
+    for (var k = 0; k < segs.length; k++){
+      var c = '';
+      if (k < picks.length) c = (picks[k] === Q[k].a) ? 'ok' : 'bad';
+      else if (k === i) c = 'cur';
+      segs[k].className = c;
+    }
+  }
+  function render(){
+    var q = Q[i];
+    $('qnum').textContent = 'سوءالن ' + (i+1) + ' دري ' + Q.length;
+    $('live').textContent = score;
+    $('qtext').textContent = q.q;
+    var box = $('opts'); box.innerHTML = '';
+    box.className = 'opts' + (q.tf ? ' tf' : '');
+    q.o.forEach(function(txt, k){
+      var btn = document.createElement('button');
+      btn.type = 'button'; btn.className = 'opt'; btn.dataset.k = k;
+      btn.innerHTML = '<span class="b"></span><span class="t"></span>';
+      btn.querySelector('.b').textContent = q.tf ? '' : LET[k];
+      if (q.tf) btn.querySelector('.b').style.display = 'none';
+      btn.querySelector('.t').textContent = txt;
+      btn.addEventListener('click', function(){ pick(k); });
+      box.appendChild(btn);
+    });
+    $('fb').hidden = true; $('next').hidden = true;
+    paintBar();
+  }
+  function pick(k){
+    if (picks.length > i) return;
+    var q = Q[i]; picks.push(k);
+    var right = (k === q.a); if (right) score++;
+    var btns = $('opts').children;
+    for (var j = 0; j < btns.length; j++){
+      var b = btns[j]; b.disabled = true;
+      if (j === q.a){ b.classList.add('ok'); if(!q.tf) b.querySelector('.b').textContent = '✓'; }
+      else if (j === k){ b.classList.add('bad'); if(!q.tf) b.querySelector('.b').textContent = '✗'; }
+      else b.classList.add('dim');
+    }
+    var fb = $('fb'); fb.className = 'fb ' + (right ? 'ok' : 'bad'); fb.hidden = false;
+    fb.innerHTML = '<strong></strong><p></p>';
+    fb.querySelector('strong').textContent = right ? 'بتول!' : 'ساله. جواڤن بتول: ' + q.o[q.a];
+    fb.querySelector('p').textContent = q.w;
+    $('live').textContent = score;
+    var nx = $('next'); nx.hidden = false;
+    nx.textContent = (i === Q.length - 1) ? 'ليهت مارکه' : 'سوءالن ستروسڽ';
+    paintBar();
+    nx.focus({preventScroll:false});
+  }
+  function finish(){
+    show('result');
+    $('rs').textContent = score; $('rt').textContent = Q.length;
+    $('rmsg').textContent = score >= 10 ? 'تهنياة! ڤماهمن اندا سڠت باڬوس.'
+                         : score >= 7  ? 'باڬوس! اولڠکاجي سديکيت لاڬي.'
+                         : 'جاڠن برڤوتوس اسا. باچا سمولا ڤلاجرن دان چوبا لاڬي.';
+    $('rwho').textContent = name ? name : '';
+    var ol = $('review'); ol.innerHTML = '';
+    Q.forEach(function(q, k){
+      var right = picks[k] === q.a;
+      var li = document.createElement('li');
+      li.innerHTML = '<span class="n"></span><span class="t"></span><span class="pill"></span>';
+      li.querySelector('.n').textContent = (k+1);
+      var t = li.querySelector('.t'); t.textContent = q.q;
+      if (!right){ var s = document.createElement('small'); s.textContent = 'جواڤن بتول: ' + q.o[q.a]; t.appendChild(s); }
+      var p = li.querySelector('.pill'); p.textContent = right ? 'بتول' : 'ساله'; p.classList.add(right ? 'ok' : 'bad');
+      ol.appendChild(li);
+    });
+    $('copybox').hidden = true; $('copy').textContent = 'سالين مارکه';
+  }
+  function reset(){ i = 0; picks = []; score = 0; show('quiz'); buildBar(); render(); }
+
+  $('go').addEventListener('click', function(){ name = $('nama').value.trim(); reset(); });
+  $('next').addEventListener('click', function(){
+    if (i < Q.length - 1){ i++; render(); window.scrollTo(0,0); } else finish();
+  });
+  $('again').addEventListener('click', function(){ show('start'); });
+  $('copy').addEventListener('click', function(){
+    var text = 'کوءيز برايمان کڤد قضاء دان قدر\n' + (name ? 'نام: ' + name + '\n' : '') + 'مارکه: ' + score + '/' + Q.length;
+    var box = $('copybox'); box.value = text;
+    function fallback(){ box.hidden = false; box.focus(); box.select(); }
+    try {
+      navigator.clipboard.writeText(text).then(function(){ $('copy').textContent = 'ترسالين'; box.hidden = true; }, fallback);
+    } catch(e){ fallback(); }
+  });
+})();
+</script>
+
+</body></html>
